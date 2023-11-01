@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,11 +16,10 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('welcome', ["name" => "Abdullah"]);
-});
-Route::get('/test', function () {
-    return Inertia::render('test');
-});
+Route::get("/login", [AuthController::class, "renderLogin"])->name("login-page");
 
-Route::get('/login', [AuthController::class, 'index']);
+Route::get("/", [HomeController::class, 'index']);
+
+Route::middleware(["isAdmin"])->prefix('admin')->group(function () {
+    Route::get("/", [HomeController::class, "index"])->name("landing-page");
+})->name('admin');

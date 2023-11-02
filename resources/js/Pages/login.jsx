@@ -1,19 +1,25 @@
-import React from 'react';
-import { Card, Form, Input, Button, Typography } from 'antd';
+import React, { useEffect } from 'react';
+import { Card, Form, Input, Button, Typography, Alert } from 'antd';
+import { router } from '@inertiajs/react'
+import { useDispatch } from 'react-redux';
+import { getLogin } from '../redux/reducers/authSlice';
 
-const LoginPage = () => {
+const LoginPage = (props) => {
+    const dispatch = useDispatch()
+
     const onFinish = (values) => {
         console.log('Received values:', values);
+        router.post('/login', values)
+        dispatch(getLogin())
     };
 
     return (
         <div className='login-container'>
-            <Card
-                className='login-card'>
-
+            <Card className='login-card'>
                 <Typography.Title strong style={{ textAlign: 'center', marginBottom: "20px", marginTop: '0' }} level={3}>
                     Sign In
                 </Typography.Title>
+                {props.errors?.message && <Alert type='error' message={props.errors?.message} style={{ marginBottom: '10px' }} />}
                 <Form
                     name="login"
                     onFinish={onFinish}
@@ -51,7 +57,7 @@ const LoginPage = () => {
                     </Form.Item>
                 </Form>
             </Card>
-        </div>
+        </div >
     );
 };
 

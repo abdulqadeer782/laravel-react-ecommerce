@@ -11,4 +11,8 @@ class HomeController extends Controller
     {
         return Inertia::render('client/index');
     }
+    public function adminIndex(Request $request)
+    {
+        return Inertia::render('admin/index');
+    }
 }

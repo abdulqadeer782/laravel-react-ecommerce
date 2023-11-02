@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
 import {
+    DashboardOutlined,
+    DownOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     UploadOutlined,
     UserOutlined,
     VideoCameraOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Button, theme } from 'antd';
-const { Header, Sider, Content } = Layout;
+import { Layout, Menu, Button, theme, Flex, Dropdown, Space, Avatar, Typography } from 'antd';
+import { Head, Link } from '@inertiajs/inertia-react';
+const { Header, Sider, Content, Footer } = Layout;
 
-const AdminLayout = ({ children }) => {
+const items = [
+    {
+        key: '1',
+        label: "Logout",
+    }
+];
+
+const AdminLayout = ({ title, children }) => {
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer },
@@ -17,27 +27,29 @@ const AdminLayout = ({ children }) => {
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider trigger={null} collapsible collapsed={collapsed}>
-                <div className="demo-logo-vertical" />
+            <Sider theme='light' trigger={null} collapsible collapsed={collapsed}>
+                <div style={{ height: '70px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Typography.Title level={collapsed ? 1 : 3} style={{ margin: 0 }}>{collapsed ? "E" : "Ecommerce"}</Typography.Title>
+                </div>
                 <Menu
-                    theme="dark"
+                    theme="light"
                     mode="inline"
-                    defaultSelectedKeys={['1']}
+                    defaultSelectedKeys={[window.location.pathname]}
                     items={[
                         {
-                            key: '1',
-                            icon: <UserOutlined />,
-                            label: 'nav 1',
+                            key: '/admin',
+                            icon: <DashboardOutlined />,
+                            label: <Link href='/admin'>Dashboard</Link>,
                         },
                         {
-                            key: '2',
+                            key: '/admin/products',
                             icon: <VideoCameraOutlined />,
-                            label: 'nav 2',
+                            label: <Link href='/admin/products'>Products</Link>,
                         },
                         {
-                            key: '3',
+                            key: '/admin/category',
                             icon: <UploadOutlined />,
-                            label: 'nav 3',
+                            label: <Link href='/admin/category'>Category</Link>,
                         },
                     ]}
                 />
@@ -49,16 +61,26 @@ const AdminLayout = ({ children }) => {
                         background: colorBgContainer,
                     }}
                 >
-                    <Button
-                        type="text"
-                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                        onClick={() => setCollapsed(!collapsed)}
-                        style={{
-                            fontSize: '16px',
-                            width: 64,
-                            height: 64,
-                        }}
-                    />
+
+                    <Flex justify={'space-between'} align={'center'} style={{ paddingRight: '20px' }}>
+                        <Button
+                            type="text"
+                            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                            onClick={() => setCollapsed(!collapsed)}
+                            style={{
+                                fontSize: '16px',
+                                width: 64,
+                                height: 64,
+                            }}
+                        />
+                        <Dropdown
+                            menu={{
+                                items,
+                            }}
+                        >
+                            <Avatar size={"large"} style={{ cursor: 'pointer' }}>U</Avatar>
+                        </Dropdown>
+                    </Flex>
                 </Header>
                 <Content
                     style={{
@@ -70,6 +92,7 @@ const AdminLayout = ({ children }) => {
                 >
                     {children}
                 </Content>
+                <Footer style={{ textAlign: 'center' }}>Copyright @{new Date().getFullYear()}. Developed by <a href='#' target='_blank'>Abdul Qadeer</a></Footer>
             </Layout>
         </Layout>
     );

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,9 +19,12 @@ use Inertia\Inertia;
 */
 
 Route::get("/login", [AuthController::class, "renderLogin"])->name("login-page");
+Route::post("/login", [AuthController::class, "login"]);
 
-Route::get("/", [HomeController::class, 'index']);
+Route::get("/", [HomeController::class, 'index'])->name('client');
 
-Route::middleware(["isAdmin"])->prefix('admin')->group(function () {
-    Route::get("/", [HomeController::class, "index"])->name("landing-page");
-})->name('admin');
+Route::prefix('admin')->group(function () {
+    Route::get("/", [HomeController::class, "adminIndex"]);
+    Route::resource("/products", ProductController::class);
+    Route::resource("/category", CategoryController::class);
+});

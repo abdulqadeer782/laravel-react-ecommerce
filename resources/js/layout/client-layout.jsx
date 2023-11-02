@@ -1,41 +1,17 @@
 import React from 'react';
 import { Badge, Breadcrumb, Button, Col, Flex, FloatButton, Layout, Menu, Row, Space, Typography, theme } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
+import { Head } from '@inertiajs/inertia-react';
+
 const { Header, Content, Footer } = Layout;
 
-const ClientLayout = ({ children }) => {
+const ClientLayout = ({ title, children }) => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
     return (
         <Layout className="layout" style={{ minHeight: '100vh' }}>
             <Header style={{ background: "#fff", height: '70px' }}>
-                {/* <Row justify={'space-between'} >
-                    <Col span={4}>
-                        <Typography.Title style={{ margin: 0 }}>Ecommerce</Typography.Title>
-                    </Col>
-                    <Col span={16} style={{ margin: '0 auto' }}>
-                        <Menu
-                            theme="light"
-                            mode="horizontal"
-                            defaultSelectedKeys={['2']}
-                            items={new Array(4).fill(null).map((_, index) => {
-                                const key = index + 1;
-                                return {
-                                    key,
-                                    label: `nav ${key}`,
-                                };
-                            })}
-                        />
-                    </Col>
-                    <Col span={4}>
-                        <Space>
-                            <Badge count={5}>
-                                <Button shape='circle' icon={<ShoppingCartOutlined />} />
-                            </Badge>
-                        </Space>
-                    </Col>
-                </Row> */}
                 <Flex justify={'space-between'} align={'center'}>
                     <Typography.Title style={{ margin: 0 }}>Ecommerce</Typography.Title>
                     {/* menu section */}
